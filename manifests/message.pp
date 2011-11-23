@@ -1,4 +1,4 @@
-define motd::message ($source='', content='') {
+define motd::message ($source='', $content='') {
 
   include motd
 
