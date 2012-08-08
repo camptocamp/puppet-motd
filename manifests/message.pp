@@ -6,11 +6,11 @@ define motd::message ($source='', $content='') {
     target=> "${motd::path}",
     source => $source ? {
       default => $source,
-      '' => false,
+      '' => undef,
     },
     content => $content ? {
       default => $content,
-      '' => false,
+      '' => undef,
     },
   }
 
