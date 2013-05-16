@@ -2,7 +2,10 @@ class motd {
 
   $path = $operatingsystem ? {
     /RedHat|CentOS|Fedora/ => "/etc/motd",
-    /Debian|Ubuntu/ => "/etc/motd.tail",
+    /Debian|Ubuntu/ => $lsbdistcodename ? {
+      /wheezy/ => "/etc/motd",
+      default  => "/etc/motd.tail",
+    },
   }
 
   include concat::setup
@@ -19,7 +22,10 @@ class motd {
     refreshonly => true,
     command     => $operatingsystem ? {
       /RedHat|CentOS|Fedora/ => "true",
-      /Debian|Ubuntu/ => "/bin/uname -snrvm > /var/run/motd && /bin/cat /etc/motd.tail >> /var/run/motd",
+      /Debian|Ubuntu/ => $lsbdistcodename ? {
+        /wheezy/ => "true",
+        default  => "/bin/uname -snrvm > /var/run/motd && /bin/cat /etc/motd.tail >> /var/run/motd",
+      },
     },
   }
 }
