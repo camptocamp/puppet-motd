@@ -1,10 +1,10 @@
 class motd {
 
   $path = $::osfamily ? {
-    'RedHat' => "/etc/motd",
+    'RedHat' => '/etc/motd',
     'Debian' => $::lsbdistcodename ? {
-      /wheezy/ => "/etc/motd",
-      default  => "/etc/motd.tail",
+      /wheezy/ => '/etc/motd',
+      default  => '/etc/motd.tail',
     },
   }
 
@@ -18,13 +18,13 @@ class motd {
   }
 
   # debian rewrites his motd, see /etc/init.d/bootmisc.sh
-  exec { "update motd":
+  exec { 'update motd':
     refreshonly => true,
     command     => $::osfamily ? {
-      'RedHat' => "true",
+      'RedHat' => 'true',
       'Debian' => $::lsbdistcodename ? {
-        /wheezy/ => "true",
-        default  => "uname -snrvm > /var/run/motd && cat /etc/motd.tail >> /var/run/motd",
+        /wheezy/ => 'true',
+        default  => 'uname -snrvm > /var/run/motd && cat /etc/motd.tail >> /var/run/motd',
       },
     },
   }
