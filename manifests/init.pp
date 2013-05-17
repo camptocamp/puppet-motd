@@ -21,10 +21,10 @@ class motd {
   exec { "update motd":
     refreshonly => true,
     command     => $operatingsystem ? {
-      /RedHat|CentOS|Fedora/ => "/bin/true",
+      /RedHat|CentOS|Fedora/ => "true",
       /Debian|Ubuntu/ => $lsbdistcodename ? {
-        /wheezy/ => "/bin/true",
-        default  => "/bin/uname -snrvm > /var/run/motd && /bin/cat /etc/motd.tail >> /var/run/motd",
+        /wheezy/ => "true",
+        default  => "uname -snrvm > /var/run/motd && cat /etc/motd.tail >> /var/run/motd",
       },
     },
   }
