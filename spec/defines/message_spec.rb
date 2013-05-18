@@ -16,7 +16,7 @@ describe 'motd::message', :type => :define do
     end
     it { should contain_concat_fragment('somename').with(
       source  => '/somefile',
-      content => undef
+      content => undef,
     ) }
   end
 
@@ -29,7 +29,7 @@ describe 'motd::message', :type => :define do
     end
     it { should contain_concat_fragment('somename').with(
       source  => undef,
-      content => 'somecontent'
+      content => 'somecontent',
     ) }
   end
 end
