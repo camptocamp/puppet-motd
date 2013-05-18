@@ -4,6 +4,11 @@ describe 'motd::message', :type => :define do
   let :title do
     'somename'
   end
+  let :facts do
+    {
+      :concat_basedir   => '/dne',
+    }
+  end
 
   it { should include_class('motd') }
 

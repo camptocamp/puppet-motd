@@ -6,6 +6,7 @@ describe 'motd', :type => :class do
       {
         :osfamily         => 'Debian',
         :lsbdistcodename  => 'squeeze',
+        :concat_basedir   => '/dne',
       }
     end
     it { should contain_exec('update motd').with({
@@ -24,6 +25,7 @@ describe 'motd', :type => :class do
       {
         :osfamily         => 'Debian',
         :lsbdistcodename  => 'wheezy',
+        :concat_basedir   => '/dne',
       }
     end
     it { should contain_exec('update motd').with({
@@ -41,6 +43,7 @@ describe 'motd', :type => :class do
     let :facts do
       {
         :osfamily         => 'RedHat',
+        :concat_basedir   => '/dne',
       }
     end
     it { should contain_exec('update motd').with({
