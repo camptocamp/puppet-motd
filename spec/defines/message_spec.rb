@@ -14,10 +14,10 @@ describe 'motd::message', :type => :define do
         :content => '',
       }
     end
-    it { should contain_concat_fragment('somename').with(
-      source  => '/somefile',
-      content => undef,
-    ) }
+    it { should contain_concat_fragment('somename').with({
+      :source  => '/somefile',
+      :content => undef,
+    }) }
   end
 
   context 'population via content param' do
@@ -27,9 +27,9 @@ describe 'motd::message', :type => :define do
         :content => 'somecontent',
       }
     end
-    it { should contain_concat_fragment('somename').with(
-      source  => undef,
-      content => 'somecontent',
-    ) }
+    it { should contain_concat_fragment('somename').with({
+      :source  => undef,
+      :content => 'somecontent',
+    }) }
   end
 end

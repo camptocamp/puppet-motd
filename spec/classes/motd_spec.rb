@@ -12,11 +12,11 @@ describe 'motd', :type => :class do
       refreshonly => true,
       command => 'uname -snrvm > /var/run/motd && cat /etc/motd.tail >> /var/run/motd',
     ) }
-    it { should contain_concat('/etc/motd.tail').with(
-      owner  => 'root',
-      group  => 'root',
-      mode   => '0644',
-    ) }
+    it { should contain_concat('/etc/motd.tail').with({
+      :owner  => 'root',
+      :group  => 'root',
+      :mode   => '0644',
+    }) }
   end
 
   context 'on a Debian Wheezy OS' do
@@ -30,11 +30,11 @@ describe 'motd', :type => :class do
       refreshonly => true,
       command => 'true',
     ) }
-    it { should contain_concat('/etc/motd').with(
-      owner  => 'root',
-      group  => 'root',
-      mode   => '0644',
-    ) }
+    it { should contain_concat('/etc/motd').with({
+      :owner  => 'root',
+      :group  => 'root',
+      :mode   => '0644',
+    }) }
   end
 
   context 'on a RedHat OS' do
@@ -47,10 +47,10 @@ describe 'motd', :type => :class do
       refreshonly => true,
       command => 'true',
     ) }
-    it { should contain_concat('/etc/motd').with(
-      owner  => 'root',
-      group  => 'root',
-      mode   => '0644',
-    ) }
+    it { should contain_concat('/etc/motd').with({
+      :owner  => 'root',
+      :group  => 'root',
+      :mode   => '0644',
+    }) }
   end
 end
