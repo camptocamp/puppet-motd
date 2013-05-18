@@ -6,6 +6,7 @@ describe 'motd::message', :type => :define do
   end
   let :facts do
     {
+      :osfamily         => 'RedHat',
       :concat_basedir   => '/dne',
     }
   end
