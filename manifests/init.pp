@@ -8,8 +8,6 @@ class motd {
     },
   }
 
-  include concat::setup
-
   concat {$path:
     owner  => 'root',
     group  => 'root',
