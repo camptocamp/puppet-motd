@@ -21,7 +21,6 @@ describe 'motd::message', :type => :define do
         let :params do
           {
             :source  => '/somefile',
-            :content => '',
           }
         end
         it { is_expected.to contain_concat__fragment('somename').with_source('/somefile') }
@@ -30,7 +29,6 @@ describe 'motd::message', :type => :define do
       context 'population via content param' do
         let :params do
           {
-            :source  => '',
             :content => 'somecontent',
           }
         end
