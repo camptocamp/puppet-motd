@@ -1,59 +1,51 @@
 require 'spec_helper'
 
 describe 'motd', :type => :class do
-  context 'on a Debian Squeeze OS' do
-    let :facts do
-      {
-        :osfamily         => 'Debian',
-        :lsbdistcodename  => 'squeeze',
-        :concat_basedir   => '/dne',
-      }
-    end
-    it { should contain_exec('update motd').with({
-      :refreshonly => true,
-      :command => 'uname -snrvm > /var/run/motd && cat /etc/motd.tail >> /var/run/motd',
-    }) }
-    it { should contain_concat('/etc/motd.tail').with({
-      :owner  => 'root',
-      :group  => 'root',
-      :mode   => '0644',
-    }) }
-  end
 
-  context 'on a Debian Wheezy OS' do
-    let :facts do
-      {
-        :osfamily         => 'Debian',
-        :lsbdistcodename  => 'wheezy',
-        :concat_basedir   => '/dne',
-      }
-    end
-    it { should contain_exec('update motd').with({
-      :refreshonly => true,
-      :command => 'true',
-    }) }
-    it { should contain_concat('/etc/motd').with({
-      :owner  => 'root',
-      :group  => 'root',
-      :mode   => '0644',
-    }) }
-  end
+  on_supported_os.each do |os, facts|
+    context "on #{os}" do
+      let(:facts) do
+        facts.merge({
+          :concat_basedir => '/tmp',
+        })
+      end
 
-  context 'on a RedHat OS' do
-    let :facts do
-      {
-        :osfamily         => 'RedHat',
-        :concat_basedir   => '/dne',
-      }
+      it { is_expected.to compile.with_all_deps }
+      case facts[:osfamily]
+      when 'Debian'
+        case facts[:lsbdistcodename]
+        when 'wheezy'
+          it { is_expected.to contain_exec('update motd').with({
+            :refreshonly => true,
+            :command => 'true',
+          }) }
+          it { is_expected.to contain_concat('/etc/motd').with({
+            :owner  => 'root',
+            :group  => 'root',
+            :mode   => '0644',
+          }) }
+        else
+          it { is_expected.to contain_exec('update motd').with({
+            :refreshonly => true,
+            :command => 'uname -snrvm > /var/run/motd && cat /etc/motd.tail >> /var/run/motd',
+          }) }
+          it { is_expected.to contain_concat('/etc/motd.tail').with({
+            :owner  => 'root',
+            :group  => 'root',
+            :mode   => '0644',
+          }) }
+        end
+      else
+        it { is_expected.to contain_exec('update motd').with({
+          :refreshonly => true,
+          :command => 'true',
+        }) }
+        it { is_expected.to contain_concat('/etc/motd').with({
+          :owner  => 'root',
+          :group  => 'root',
+          :mode   => '0644',
+        }) }
+      end
     end
-    it { should contain_exec('update motd').with({
-      :refreshonly => true,
-      :command => 'true',
-    }) }
-    it { should contain_concat('/etc/motd').with({
-      :owner  => 'root',
-      :group  => 'root',
-      :mode   => '0644',
-    }) }
   end
 end
