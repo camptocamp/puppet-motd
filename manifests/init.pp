@@ -16,14 +16,25 @@ class motd {
   }
 
   # debian rewrites his motd, see /etc/init.d/bootmisc.sh
-  exec { 'update motd':
-    refreshonly => true,
-    command     => $::osfamily ? {
-      'RedHat' => 'true',
-      'Debian' => $::lsbdistcodename ? {
+  # lint:ignore:quoted_booleans
+  case $::osfamily {
+    'Debian': {
+      $command = $::lsbdistcodename ? {
         /wheezy/ => 'true',
         default  => 'uname -snrvm > /var/run/motd && cat /etc/motd.tail >> /var/run/motd',
-      },
-    },
+      }
+    }
+    'Redhat': {
+      $command = 'true'
+    }
+    default: {
+      fail "Unsupported Operating System family: ${::osfamily}"
+    }
+  }
+  # lint:endignore
+  exec { 'update motd':
+    refreshonly => true,
+    command     => $command,
+    path        => $::path,
   }
 }
