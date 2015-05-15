@@ -13,17 +13,9 @@ describe 'motd::message', :type => :define do
         })
       end
 
-      it { is_expected.to compile.with_all_deps }
 
-      it { is_expected.to contain_class('motd') }
-
-      context 'population via source file' do
-        let :params do
-          {
-            :source  => '/somefile',
-          }
-        end
-        it { is_expected.to contain_concat__fragment('somename').with_source('/somefile') }
+      context 'without params' do
+        it { expect { is_expected.to compile}.to raise_error(/Must pass content to Motd::Message/) }
       end
 
       context 'population via content param' do
@@ -32,6 +24,8 @@ describe 'motd::message', :type => :define do
             :content => 'somecontent',
           }
         end
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.to contain_class('motd') }
         it { is_expected.to contain_concat__fragment('somename').with_content('somecontent') }
       end
     end

@@ -1,13 +1,11 @@
 define motd::message(
-  $source  = undef,
-  $content = undef,
+  $content,
 ) {
 
   include ::motd
 
   concat::fragment { $name:
     target  => $::motd::path,
-    source  => $source,
     content => $content,
   }
 
