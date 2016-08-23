@@ -15,7 +15,7 @@ describe 'motd::message', :type => :define do
 
 
       context 'without params' do
-        it { expect { is_expected.to compile}.to raise_error(/Must pass content to Motd::Message/) }
+        it { expect { is_expected.to compile}.to raise_error(/content/) }
       end
 
       context 'population via content param' do
